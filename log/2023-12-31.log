@@ -1,0 +1,134 @@
+2023-12-31 01:29:33 - WARNING - 错误信息:,(1146, "Table 'Paper.index_copy2' doesn't exist")
+2023-12-31 01:29:33 - WARNING - 错误类型:, ProgrammingError
+2023-12-31 01:29:33 - WARNING - 发生错误的位置:, E:\Seadirve Filse\makuro\My Libraries\Project\Python\CNKI-Reptile\src\module\execution_db.py+ '第', 16, '行'
+2023-12-31 01:29:33 - WARNING - INSERT INTO `Paper`.`index_copy2`(`UUID`, `web_site_id`, `classification_en`,`classification_zh`,`source_language`, `title_zh`, `title_en`, `update_time`, `insert_time`, `from`, `state`, `authors`, `Introduction`, `receive_time`, `Journal_reference`, `Comments`, `size`, `DOI`, `version`, `withdrawn`)  VALUES ('cab1d5f4-bebb-489d-a4b9-7a9cf7317557', 'cab1d5f4-bebb-489d-a4b9-7a9cf7317557', NULL, '气象数据;爬虫技术;数据分析;数据可视化',  'cn', '农业气象数据爬虫系统研究', NULL, NULL, '2023-12-31 01:29:33.834', 'cnki', '00',  '杨波', NULL, '2023-12-29', NULL, NULL, 345, '10.19754/j.nyyjs.20231230041', NULL, NULL);
+2023-12-31 01:29:34 - WARNING - 已获取 ： 农业气象数据爬虫系统研究, UUID : cab1d5f4-bebb-489d-a4b9-7a9cf7317557
+2023-12-31 01:29:35 - WARNING - Err Message:,'NoneType' object has no attribute 'isdigit'
+2023-12-31 01:29:35 - WARNING - Err Type:, AttributeError
+2023-12-31 01:29:35 - WARNING - Err Local:, E:\Seadirve Filse\makuro\My Libraries\Project\Python\CNKI-Reptile\src\paper_website\cnki\cnki.py, 241
+2023-12-31 01:29:35 - WARNING - 错误信息:,(1048, "Column 'title' cannot be null")
+2023-12-31 01:29:35 - WARNING - 错误类型:, IntegrityError
+2023-12-31 01:29:35 - WARNING - 发生错误的位置:, E:\Seadirve Filse\makuro\My Libraries\Project\Python\CNKI-Reptile\src\module\execution_db.py+ '第', 16, '行'
+2023-12-31 01:29:35 - WARNING - INSERT INTO `Paper`.`cnki_index_copy1`(`UUID`, `title`, `receive_time`, `from`) VALUES ('62563f17-46bb-42c3-8c3e-1cfda7ff2b50', NULL, NULL, '爬虫');
+2023-12-31 01:29:35 - WARNING - Err Message:,'NoneType' object has no attribute 'isdigit'
+2023-12-31 01:29:35 - WARNING - Err Type:, AttributeError
+2023-12-31 01:29:35 - WARNING - Err Local:, E:\Seadirve Filse\makuro\My Libraries\Project\Python\CNKI-Reptile\src\paper_website\cnki\cnki.py, 241
+2023-12-31 01:29:35 - WARNING - 错误信息:,(1048, "Column 'title' cannot be null")
+2023-12-31 01:29:35 - WARNING - 错误类型:, IntegrityError
+2023-12-31 01:29:35 - WARNING - 发生错误的位置:, E:\Seadirve Filse\makuro\My Libraries\Project\Python\CNKI-Reptile\src\module\execution_db.py+ '第', 16, '行'
+2023-12-31 01:29:35 - WARNING - INSERT INTO `Paper`.`cnki_index_copy1`(`UUID`, `title`, `receive_time`, `from`) VALUES ('b5d80164-5578-4561-b467-4bdce8606d45', NULL, NULL, '爬虫');
+2023-12-31 01:29:35 - WARNING - Err Message:,'NoneType' object has no attribute 'isdigit'
+2023-12-31 01:29:35 - WARNING - Err Type:, AttributeError
+2023-12-31 01:29:35 - WARNING - Err Local:, E:\Seadirve Filse\makuro\My Libraries\Project\Python\CNKI-Reptile\src\paper_website\cnki\cnki.py, 241
+2023-12-31 01:29:35 - WARNING - 错误信息:,(1048, "Column 'title' cannot be null")
+2023-12-31 01:29:35 - WARNING - 错误类型:, IntegrityError
+2023-12-31 01:29:35 - WARNING - 发生错误的位置:, E:\Seadirve Filse\makuro\My Libraries\Project\Python\CNKI-Reptile\src\module\execution_db.py+ '第', 16, '行'
+2023-12-31 01:29:35 - WARNING - INSERT INTO `Paper`.`cnki_index_copy1`(`UUID`, `title`, `receive_time`, `from`) VALUES ('34c7bb88-506d-4d5f-ab2f-46f5863d14cb', NULL, NULL, '爬虫');
+2023-12-31 01:29:35 - WARNING - Err Message:,'NoneType' object has no attribute 'isdigit'
+2023-12-31 01:29:35 - WARNING - Err Type:, AttributeError
+2023-12-31 01:29:35 - WARNING - Err Local:, E:\Seadirve Filse\makuro\My Libraries\Project\Python\CNKI-Reptile\src\paper_website\cnki\cnki.py, 241
+2023-12-31 01:29:35 - WARNING - 错误信息:,(1048, "Column 'title' cannot be null")
+2023-12-31 01:29:35 - WARNING - 错误类型:, IntegrityError
+2023-12-31 01:29:35 - WARNING - 发生错误的位置:, E:\Seadirve Filse\makuro\My Libraries\Project\Python\CNKI-Reptile\src\module\execution_db.py+ '第', 16, '行'
+2023-12-31 01:29:35 - WARNING - INSERT INTO `Paper`.`cnki_index_copy1`(`UUID`, `title`, `receive_time`, `from`) VALUES ('8d7221d1-4772-4253-9c5f-693f4225d838', NULL, NULL, '爬虫');
+2023-12-31 01:29:35 - WARNING - Err Message:,'NoneType' object has no attribute 'isdigit'
+2023-12-31 01:29:35 - WARNING - Err Type:, AttributeError
+2023-12-31 01:29:35 - WARNING - Err Local:, E:\Seadirve Filse\makuro\My Libraries\Project\Python\CNKI-Reptile\src\paper_website\cnki\cnki.py, 241
+2023-12-31 01:29:36 - WARNING - 错误信息:,(1048, "Column 'title' cannot be null")
+2023-12-31 01:29:36 - WARNING - 错误类型:, IntegrityError
+2023-12-31 01:29:36 - WARNING - 发生错误的位置:, E:\Seadirve Filse\makuro\My Libraries\Project\Python\CNKI-Reptile\src\module\execution_db.py+ '第', 16, '行'
+2023-12-31 01:29:36 - WARNING - INSERT INTO `Paper`.`cnki_index_copy1`(`UUID`, `title`, `receive_time`, `from`) VALUES ('2700b32f-7996-4afc-ac4d-0f680af68eb1', NULL, NULL, '爬虫');
+2023-12-31 01:29:36 - WARNING - Err Message:,'NoneType' object has no attribute 'isdigit'
+2023-12-31 01:29:36 - WARNING - Err Type:, AttributeError
+2023-12-31 01:29:36 - WARNING - Err Local:, E:\Seadirve Filse\makuro\My Libraries\Project\Python\CNKI-Reptile\src\paper_website\cnki\cnki.py, 241
+2023-12-31 01:29:36 - WARNING - 错误信息:,(1048, "Column 'title' cannot be null")
+2023-12-31 01:29:36 - WARNING - 错误类型:, IntegrityError
+2023-12-31 01:29:36 - WARNING - 发生错误的位置:, E:\Seadirve Filse\makuro\My Libraries\Project\Python\CNKI-Reptile\src\module\execution_db.py+ '第', 16, '行'
+2023-12-31 01:29:36 - WARNING - INSERT INTO `Paper`.`cnki_index_copy1`(`UUID`, `title`, `receive_time`, `from`) VALUES ('bb842c86-4f7f-43c1-9a84-a7b361696e62', NULL, NULL, '爬虫');
+2023-12-31 01:29:36 - WARNING - Err Message:,'NoneType' object has no attribute 'isdigit'
+2023-12-31 01:29:36 - WARNING - Err Type:, AttributeError
+2023-12-31 01:29:36 - WARNING - Err Local:, E:\Seadirve Filse\makuro\My Libraries\Project\Python\CNKI-Reptile\src\paper_website\cnki\cnki.py, 241
+2023-12-31 01:29:36 - WARNING - 错误信息:,(1048, "Column 'title' cannot be null")
+2023-12-31 01:29:36 - WARNING - 错误类型:, IntegrityError
+2023-12-31 01:29:36 - WARNING - 发生错误的位置:, E:\Seadirve Filse\makuro\My Libraries\Project\Python\CNKI-Reptile\src\module\execution_db.py+ '第', 16, '行'
+2023-12-31 01:29:36 - WARNING - INSERT INTO `Paper`.`cnki_index_copy1`(`UUID`, `title`, `receive_time`, `from`) VALUES ('1b686a99-efbd-4d56-9188-562379ad2c05', NULL, NULL, '爬虫');
+2023-12-31 01:29:36 - WARNING - Err Message:,'NoneType' object has no attribute 'isdigit'
+2023-12-31 01:29:36 - WARNING - Err Type:, AttributeError
+2023-12-31 01:29:36 - WARNING - Err Local:, E:\Seadirve Filse\makuro\My Libraries\Project\Python\CNKI-Reptile\src\paper_website\cnki\cnki.py, 241
+2023-12-31 01:29:36 - WARNING - 错误信息:,(1048, "Column 'title' cannot be null")
+2023-12-31 01:29:36 - WARNING - 错误类型:, IntegrityError
+2023-12-31 01:29:36 - WARNING - 发生错误的位置:, E:\Seadirve Filse\makuro\My Libraries\Project\Python\CNKI-Reptile\src\module\execution_db.py+ '第', 16, '行'
+2023-12-31 01:29:36 - WARNING - INSERT INTO `Paper`.`cnki_index_copy1`(`UUID`, `title`, `receive_time`, `from`) VALUES ('170e9e2b-3bc6-4923-861d-7566158ce656', NULL, NULL, '爬虫');
+2023-12-31 01:29:36 - WARNING - Err Message:,'NoneType' object has no attribute 'isdigit'
+2023-12-31 01:29:36 - WARNING - Err Type:, AttributeError
+2023-12-31 01:29:36 - WARNING - Err Local:, E:\Seadirve Filse\makuro\My Libraries\Project\Python\CNKI-Reptile\src\paper_website\cnki\cnki.py, 241
+2023-12-31 01:29:36 - WARNING - 错误信息:,(1048, "Column 'title' cannot be null")
+2023-12-31 01:29:36 - WARNING - 错误类型:, IntegrityError
+2023-12-31 01:29:36 - WARNING - 发生错误的位置:, E:\Seadirve Filse\makuro\My Libraries\Project\Python\CNKI-Reptile\src\module\execution_db.py+ '第', 16, '行'
+2023-12-31 01:29:36 - WARNING - INSERT INTO `Paper`.`cnki_index_copy1`(`UUID`, `title`, `receive_time`, `from`) VALUES ('61b94a45-0ae3-4090-bf14-ddf0496ca6ca', NULL, NULL, '爬虫');
+2023-12-31 01:29:36 - WARNING - Err Message:,'NoneType' object has no attribute 'isdigit'
+2023-12-31 01:29:36 - WARNING - Err Type:, AttributeError
+2023-12-31 01:29:36 - WARNING - Err Local:, E:\Seadirve Filse\makuro\My Libraries\Project\Python\CNKI-Reptile\src\paper_website\cnki\cnki.py, 241
+2023-12-31 01:29:36 - WARNING - 错误信息:,(1048, "Column 'title' cannot be null")
+2023-12-31 01:29:36 - WARNING - 错误类型:, IntegrityError
+2023-12-31 01:29:36 - WARNING - 发生错误的位置:, E:\Seadirve Filse\makuro\My Libraries\Project\Python\CNKI-Reptile\src\module\execution_db.py+ '第', 16, '行'
+2023-12-31 01:29:36 - WARNING - INSERT INTO `Paper`.`cnki_index_copy1`(`UUID`, `title`, `receive_time`, `from`) VALUES ('da11f26b-c4b5-4220-9efd-b8ac99cbb229', NULL, NULL, '爬虫');
+2023-12-31 01:29:36 - WARNING - Err Message:,'NoneType' object has no attribute 'isdigit'
+2023-12-31 01:29:36 - WARNING - Err Type:, AttributeError
+2023-12-31 01:29:36 - WARNING - Err Local:, E:\Seadirve Filse\makuro\My Libraries\Project\Python\CNKI-Reptile\src\paper_website\cnki\cnki.py, 241
+2023-12-31 01:29:36 - WARNING - 错误信息:,(1048, "Column 'title' cannot be null")
+2023-12-31 01:29:36 - WARNING - 错误类型:, IntegrityError
+2023-12-31 01:29:36 - WARNING - 发生错误的位置:, E:\Seadirve Filse\makuro\My Libraries\Project\Python\CNKI-Reptile\src\module\execution_db.py+ '第', 16, '行'
+2023-12-31 01:29:36 - WARNING - INSERT INTO `Paper`.`cnki_index_copy1`(`UUID`, `title`, `receive_time`, `from`) VALUES ('200d1e40-f4c4-480e-834d-a87f94f1dca6', NULL, NULL, '爬虫');
+2023-12-31 01:29:36 - WARNING - Err Message:,'NoneType' object has no attribute 'isdigit'
+2023-12-31 01:29:36 - WARNING - Err Type:, AttributeError
+2023-12-31 01:29:36 - WARNING - Err Local:, E:\Seadirve Filse\makuro\My Libraries\Project\Python\CNKI-Reptile\src\paper_website\cnki\cnki.py, 241
+2023-12-31 01:29:36 - WARNING - 错误信息:,(1048, "Column 'title' cannot be null")
+2023-12-31 01:29:36 - WARNING - 错误类型:, IntegrityError
+2023-12-31 01:29:36 - WARNING - 发生错误的位置:, E:\Seadirve Filse\makuro\My Libraries\Project\Python\CNKI-Reptile\src\module\execution_db.py+ '第', 16, '行'
+2023-12-31 01:29:36 - WARNING - INSERT INTO `Paper`.`cnki_index_copy1`(`UUID`, `title`, `receive_time`, `from`) VALUES ('68e4d4dd-e003-4e97-968f-b2a7e7a4c593', NULL, NULL, '爬虫');
+2023-12-31 01:29:36 - WARNING - Err Message:,'NoneType' object has no attribute 'isdigit'
+2023-12-31 01:29:36 - WARNING - Err Type:, AttributeError
+2023-12-31 01:29:36 - WARNING - Err Local:, E:\Seadirve Filse\makuro\My Libraries\Project\Python\CNKI-Reptile\src\paper_website\cnki\cnki.py, 241
+2023-12-31 01:29:36 - WARNING - 错误信息:,(1048, "Column 'title' cannot be null")
+2023-12-31 01:29:36 - WARNING - 错误类型:, IntegrityError
+2023-12-31 01:29:36 - WARNING - 发生错误的位置:, E:\Seadirve Filse\makuro\My Libraries\Project\Python\CNKI-Reptile\src\module\execution_db.py+ '第', 16, '行'
+2023-12-31 01:29:36 - WARNING - INSERT INTO `Paper`.`cnki_index_copy1`(`UUID`, `title`, `receive_time`, `from`) VALUES ('095bd6b5-76bb-4a78-bb93-09bade8e92d4', NULL, NULL, '爬虫');
+2023-12-31 01:29:36 - WARNING - Err Message:,'NoneType' object has no attribute 'isdigit'
+2023-12-31 01:29:36 - WARNING - Err Type:, AttributeError
+2023-12-31 01:29:36 - WARNING - Err Local:, E:\Seadirve Filse\makuro\My Libraries\Project\Python\CNKI-Reptile\src\paper_website\cnki\cnki.py, 241
+2023-12-31 01:29:36 - WARNING - 错误信息:,(1048, "Column 'title' cannot be null")
+2023-12-31 01:29:36 - WARNING - 错误类型:, IntegrityError
+2023-12-31 01:29:36 - WARNING - 发生错误的位置:, E:\Seadirve Filse\makuro\My Libraries\Project\Python\CNKI-Reptile\src\module\execution_db.py+ '第', 16, '行'
+2023-12-31 01:29:36 - WARNING - INSERT INTO `Paper`.`cnki_index_copy1`(`UUID`, `title`, `receive_time`, `from`) VALUES ('64894911-44d6-4d02-a4f1-61934a50c75c', NULL, NULL, '爬虫');
+2023-12-31 01:29:36 - WARNING - Err Message:,'NoneType' object has no attribute 'isdigit'
+2023-12-31 01:29:36 - WARNING - Err Type:, AttributeError
+2023-12-31 01:29:36 - WARNING - Err Local:, E:\Seadirve Filse\makuro\My Libraries\Project\Python\CNKI-Reptile\src\paper_website\cnki\cnki.py, 241
+2023-12-31 01:29:36 - WARNING - 错误信息:,(1048, "Column 'title' cannot be null")
+2023-12-31 01:29:36 - WARNING - 错误类型:, IntegrityError
+2023-12-31 01:29:36 - WARNING - 发生错误的位置:, E:\Seadirve Filse\makuro\My Libraries\Project\Python\CNKI-Reptile\src\module\execution_db.py+ '第', 16, '行'
+2023-12-31 01:29:36 - WARNING - INSERT INTO `Paper`.`cnki_index_copy1`(`UUID`, `title`, `receive_time`, `from`) VALUES ('7d584913-9b35-443e-8398-00bcec093c8a', NULL, NULL, '爬虫');
+2023-12-31 01:29:36 - WARNING - Err Message:,'NoneType' object has no attribute 'isdigit'
+2023-12-31 01:29:36 - WARNING - Err Type:, AttributeError
+2023-12-31 01:29:36 - WARNING - Err Local:, E:\Seadirve Filse\makuro\My Libraries\Project\Python\CNKI-Reptile\src\paper_website\cnki\cnki.py, 241
+2023-12-31 01:29:37 - WARNING - 错误信息:,(1048, "Column 'title' cannot be null")
+2023-12-31 01:29:37 - WARNING - 错误类型:, IntegrityError
+2023-12-31 01:29:37 - WARNING - 发生错误的位置:, E:\Seadirve Filse\makuro\My Libraries\Project\Python\CNKI-Reptile\src\module\execution_db.py+ '第', 16, '行'
+2023-12-31 01:29:37 - WARNING - INSERT INTO `Paper`.`cnki_index_copy1`(`UUID`, `title`, `receive_time`, `from`) VALUES ('59cec1ca-f02a-4955-8e47-8c23bc556976', NULL, NULL, '爬虫');
+2023-12-31 01:29:37 - WARNING - Err Message:,'NoneType' object has no attribute 'isdigit'
+2023-12-31 01:29:37 - WARNING - Err Type:, AttributeError
+2023-12-31 01:29:37 - WARNING - Err Local:, E:\Seadirve Filse\makuro\My Libraries\Project\Python\CNKI-Reptile\src\paper_website\cnki\cnki.py, 241
+2023-12-31 01:29:37 - WARNING - 错误信息:,(1048, "Column 'title' cannot be null")
+2023-12-31 01:29:37 - WARNING - 错误类型:, IntegrityError
+2023-12-31 01:29:37 - WARNING - 发生错误的位置:, E:\Seadirve Filse\makuro\My Libraries\Project\Python\CNKI-Reptile\src\module\execution_db.py+ '第', 16, '行'
+2023-12-31 01:29:37 - WARNING - INSERT INTO `Paper`.`cnki_index_copy1`(`UUID`, `title`, `receive_time`, `from`) VALUES ('43ac4c99-f239-413a-98c6-b26312f01c52', NULL, NULL, '爬虫');
+2023-12-31 01:29:37 - WARNING - Err Message:,'NoneType' object has no attribute 'isdigit'
+2023-12-31 01:29:37 - WARNING - Err Type:, AttributeError
+2023-12-31 01:29:37 - WARNING - Err Local:, E:\Seadirve Filse\makuro\My Libraries\Project\Python\CNKI-Reptile\src\paper_website\cnki\cnki.py, 241
+2023-12-31 01:29:37 - WARNING - 错误信息:,(1048, "Column 'title' cannot be null")
+2023-12-31 01:29:37 - WARNING - 错误类型:, IntegrityError
+2023-12-31 01:29:37 - WARNING - 发生错误的位置:, E:\Seadirve Filse\makuro\My Libraries\Project\Python\CNKI-Reptile\src\module\execution_db.py+ '第', 16, '行'
+2023-12-31 01:29:37 - WARNING - INSERT INTO `Paper`.`cnki_index_copy1`(`UUID`, `title`, `receive_time`, `from`) VALUES ('a9adf81c-a3ea-4807-9610-5278d6c346fd', NULL, NULL, '爬虫');
+2023-12-31 01:29:37 - WARNING - Err Message:,'NoneType' object has no attribute 'isdigit'
+2023-12-31 01:29:37 - WARNING - Err Type:, AttributeError
+2023-12-31 01:29:37 - WARNING - Err Local:, E:\Seadirve Filse\makuro\My Libraries\Project\Python\CNKI-Reptile\src\paper_website\cnki\cnki.py, 241
