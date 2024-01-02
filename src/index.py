@@ -1,13 +1,17 @@
-from src.module.log import log
-from src.paper_website.cnki.cnki import cnki_run
+from src.paper_website.cnki.run_cnki import run_paper_main_info, run_lever2_page
 import asyncio
 
 
 class index:
 
-    def __init__(self):
-        self.logger = log()
-
     @staticmethod
     def index():
-        cnki_run(0)
+        flag = '6'
+        if flag == '1':
+            print("获取cnki论文基础数据")
+            run_paper_main_info(0)
+
+        if flag == '2':
+            print("获取cnki论文详细数据")
+            run_lever2_page()
+
