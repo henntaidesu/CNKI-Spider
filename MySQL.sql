@@ -2,11 +2,19 @@ CREATE TABLE `cnki_index` (
   `UUID` char(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
   `title` varchar(700) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `receive_time` datetime DEFAULT NULL,
-  `from` varchar(256) DEFAULT NULL,
+  `start` char(1) DEFAULT NULL,
+  `db_type` char(1) DEFAULT NULL,
   PRIMARY KEY (`title`),
-  KEY `from` (`from`)
+  KEY `stare` (`start`),
+  KEY `uuid` (`UUID`),
+  KEY `receive_time` (`receive_time`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
+CREATE TABLE `cnki_page_flag` (
+  `date` date NOT NULL,
+  `flag` char(9) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  PRIMARY KEY (`date`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 CREATE TABLE `cnki_paper_information` (
   `UUID` char(36) NOT NULL,
@@ -36,8 +44,7 @@ CREATE TABLE `cnki_paper_information` (
   KEY `level` (`level`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
-
-CREATE TABLE `index` (
+CREATE TABLE `index_copy1` (
   `UUID` char(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
   `web_site_id` varchar(512) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `classification_en` varchar(700) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
@@ -52,7 +59,7 @@ CREATE TABLE `index` (
   `authors` varchar(512) DEFAULT NULL,
   `Introduction` varchar(9182) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
   `receive_time` datetime DEFAULT NULL,
-  `Journal_reference` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci,
+  `Journal_reference` varchar(256) DEFAULT NULL,
   `Comments` varchar(2048) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
   `size` double DEFAULT NULL,
   `DOI` varchar(255) DEFAULT NULL,
@@ -65,5 +72,6 @@ CREATE TABLE `index` (
   KEY `classification_en` (`classification_en`),
   KEY `classification_cn` (`classification_zh`),
   KEY `state` (`state`),
-  KEY `receive_time` (`receive_time`)
+  KEY `receive_time` (`receive_time`),
+  KEY `UUID` (`UUID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
