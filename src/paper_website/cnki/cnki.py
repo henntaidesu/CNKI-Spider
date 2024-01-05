@@ -18,6 +18,7 @@ from src.model.cnki import Crawl, positioned_element, crawl_xpath, reference_pap
 from src.module.log import log
 from src.module.read_conf import read_conf
 from src.module.err_message import err
+from src.module.read_conf import CNKI
 import random
 
 open_page_data = positioned_element()
@@ -70,6 +71,11 @@ def get_info(driver, xpath):
         return None
 
 
+def is_english_string(s):
+    # 使用正则表达式判断字符串是否全为英文字符
+    return bool(re.match('^[a-zA-Z\s.,;:!?\'"()]+$', s))
+
+
 def get_choose_info(driver, xpath1, xpath2, str):
     try:
         if WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.XPATH, xpath1))).text == str:
@@ -80,54 +86,128 @@ def get_choose_info(driver, xpath1, xpath2, str):
         return None
 
 
-def get_mian_page_info(driver, keyword, paper_sum_flag, time_out):
+def is_leap_year(year):
+    if (year % 4 == 0 and year % 100 != 0) or (year % 400 == 0):
+        return True
+    else:
+        return False
+
+
+def revise_cnki_date():
+    cnki = CNKI()
+    yy, mm, dd = cnki.read_cnki_date()
+    dd -= 1
+    if dd == 0:
+        mm -= 1
+        if mm in {1, 3, 5, 7, 8, 10, 12}:
+            dd = 31
+        elif mm == 2:
+            if (yy % 4 == 0 and yy % 100 != 0) or (yy % 400 == 0):
+                dd = 29
+            else:
+                dd = 28
+        elif mm == 0:
+            yy -= 1
+            mm = 12
+            dd = 31
+        else:
+            dd = 30
+
+    cnki.write_cnki_date(str(yy), str(mm), str(dd))
+    return True
+
+
+def get_paper_title(driver, keyword, time_out, res_unm, date, paper_type, paper_day, date_str, paper_sum):
+    title = None
+    db_type = None
+    authors = None
+    source = None
+    aa = None
+
     paper_db = read_conf.cnki_skip_db()
     cp = crawl_xpath()
     rp = reference_papers()
     qp = QuotePaper()
 
     count = 1
-    xpath_information = crawl_xp.xpath_inf()
-
-    sql = f"select title from `cnki_index` where `from` = '{keyword}'"
-    flag, paper_title = Date_base().select_all(sql)
-
     new_paper_sum = 0
 
-    for i in range((count - 1) // 20):
-        # 切换到下一页
-        random_sleep = round(random.uniform(0, 3), 2)
-        print(f"sleep {random_sleep}s")
-        time.sleep(random_sleep)
-        WebDriverWait(driver, 20).until(EC.presence_of_element_located((By.XPATH, cp['get_next_page']))).click()
+    xpath_information = crawl_xp.xpath_inf()
+    sql = f"SELECT title FROM cnki_index where receive_time >= '{date} 00:00:00' and receive_time <= '{date} 23:59:59'"
+    flag, paper_title = Date_base().select_all(sql)
 
-    print(f"从第 {count} 条开始爬取\n")
+    if res_unm > 6000:
+        res_unm = 6000 - paper_sum
 
     # 当爬取数量小于需求时，循环网页页码
     while True:
         # 等待加载完全，休眠3S
         time.sleep(3)
+        driver.find_element(By.TAG_NAME, 'body').send_keys(Keys.END)
+        try:
+            title_list = WebDriverWait(driver, time_out).until(
+                EC.presence_of_all_elements_located((By.CLASS_NAME, "fz14")))
+        except:
+            try:
+                driver.find_element(By.TAG_NAME, 'body').send_keys(Keys.END)
+                time.sleep(15)
+                title_list = WebDriverWait(driver, time_out).until(
+                    EC.presence_of_all_elements_located((By.CLASS_NAME, "fz14")))
+            except:
+                return True
 
-        title_list = WebDriverWait(driver, 10).until(EC.presence_of_all_elements_located((By.CLASS_NAME, "fz14")))
         # 循环网页一页中的条目
-        for i in range((count - 1) % 20 + 1, 21):
+        for i in range((count - 1) % paper_sum + 1, paper_sum + 1):
 
-            if count < paper_sum_flag:
-                count += 1
-                continue
+            if res_unm < count:
+                logger.write_log("已获取完数据")
 
-            print(f"正在爬取第{count - new_paper_sum}条基础数据,跳过{new_paper_sum + paper_sum_flag}"
-                  f"条(第{(count - 1) // 20 + 1}页第{i}条 总第{count}条):")
+                date_str = list(date_str)
+                date_str[paper_type] = '1'
+                date_str = str(date_str)
+                date_str = date_str[1:][:-1].replace(',', '').replace("'", "").replace(" ", "")
+
+                sql = f"UPDATE `Paper`.`cnki_page_flag` SET `flag` = '{date_str}' WHERE `date` = '{paper_day}'"
+                Date_base().update_all(sql)
+                if date_str == '111100000':
+                    flag = revise_cnki_date()
+
+                if flag is True:
+                    return True
+
+            print(f"正在爬取第{count - new_paper_sum}条基础数据,跳过{new_paper_sum}"
+                  f"条(第{(count - 1) // paper_sum + 1}页第{i}条 总第{count}条 共{res_unm}条):")
 
             try:
-                term = (count - 1) % 20 + 1  # 本页的第几个条目
+                term = (count - 1) % paper_sum + 1  # 本页的第几个条目
                 xpaths = crawl_xp.xpath_base(term)
 
-                with concurrent.futures.ThreadPoolExecutor() as executor:
-                    future_elements = [executor.submit(get_info, driver, xpath) for xpath in xpaths]
-                title, authors, source, date, db_type, quote, down_sun = [future.result() for future in future_elements]
+                if paper_type == 0:
+                    with concurrent.futures.ThreadPoolExecutor() as executor:
+                        future_elements = [executor.submit(get_info, driver, xpath) for xpath in xpaths]
+                    title, authors, source, date, quote, down_sun, aa = [future.result() for future in
+                                                                         future_elements]
 
-                url = None
+                elif paper_type == 1:
+                    with concurrent.futures.ThreadPoolExecutor() as executor:
+                        future_elements = [executor.submit(get_info, driver, xpath) for xpath in xpaths]
+                    title, authors, source, db_type, date, quote, down_sun = [future.result() for future in
+                                                                              future_elements]
+                    date = f"{date}-01-01"
+
+                elif paper_type == 2:
+                    with concurrent.futures.ThreadPoolExecutor() as executor:
+                        future_elements = [executor.submit(get_info, driver, xpath) for xpath in xpaths]
+                    title, authors, source, db_type, date, quote, down_sun = [future.result() for future in
+                                                                              future_elements]
+                elif paper_type == 3:
+                    with concurrent.futures.ThreadPoolExecutor() as executor:
+                        future_elements = [executor.submit(get_info, driver, xpath) for xpath in xpaths]
+                    title, authors, source, date, quote, down_sun, aa = [future.result() for future in future_elements]
+
+
+                if '增强出版' in title:
+                    title = title[:-5]
 
                 if '网络首发' in title:
                     title = title[:-5]
@@ -141,20 +221,48 @@ def get_mian_page_info(driver, keyword, paper_sum_flag, time_out):
 
                 if if_title is True:
                     new_paper_sum += 1
+                    if i == 50:
+                        time.sleep(3)
                     continue
+
+                # 期刊
+                if paper_type == 0:
+                    db_type = '1'
+                # 报纸
+                elif paper_type == 3:
+                    db_type = '0'
+
+                elif db_type == '硕士':
+                    db_type = '2'
+
+                elif db_type == '博士':
+                    db_type = '3'
+
+                elif db_type == '图书':
+                    db_type = '4'
+
+                elif db_type == '中国会议':
+                    db_type = 'a'
+                elif db_type == '国际会议':
+                    db_type = 'b'
+
+                elif db_type == '国家标准':
+                    db_type = 'c'
+                elif db_type == '国家标准':
+                    db_type = 'd'
+
+                else:
+                    db_type = '9'
 
                 uuid = UUID()
                 sql3 = (f"INSERT INTO `Paper`.`cnki_index`"
-                        f"(`UUID`, `title`, `receive_time`, `from`, `start`) "
-                        f"VALUES ('{uuid}', '{title}', '{date}', '{keyword}', '0');")
+                        f"(`UUID`, `title`, `receive_time`, `start`, `db_type`) "
+                        f"VALUES ('{uuid}', '{title}', '{date}', '0', '{db_type}');")
 
                 sql3 = TrSQL(sql3)
                 flag = Date_base().insert_all(sql3)
                 if flag == '重复数据':
                     logger.write_log(f"重复数据 ： {title}, UUID : {uuid}")
-                    random_sleep = round(random.uniform(0, 3), 2)
-                    print(f"sleep {random_sleep}s")
-                    time.sleep(random_sleep)
                     continue
 
                 if not quote.isdigit():
@@ -163,29 +271,12 @@ def get_mian_page_info(driver, keyword, paper_sum_flag, time_out):
                     down_sun = '0'
 
                 print(f"\n"
+                      f"标题:    {title}\n"
                       f"作者:    {authors}\n"
                       f"文章来源: {source}\n"
                       f"数据来源: {db_type}\n"
                       f"引用次数: {quote}\n"
-                      f"下载次数: {down_sun}")
-
-                insert_time = now_time()
-
-                sql1 = (f"INSERT INTO `Paper`.`index_copy1`(`UUID`, `web_site_id`,`source_language`, `title_zh`,"
-                        f" `insert_time`, `from`, `state`, `authors`, `Introduction`, `receive_time`) "
-                        f" VALUES ('{uuid}', '{uuid}', 'cn', '{title}', '{insert_time}', 'cnki', '00', "
-                        f" '{authors}', NULL, '{date}');")
-
-                sql2 = (f"INSERT INTO `Paper`.`cnki_paper_information`"
-                        f"(`UUID`, `paper_from`, `db_type`, `down_sun`, `quote`, `insert_time`, `url`) "
-                        f"VALUES "
-                        f"('{uuid}', '{source}', '{db_type}',' {down_sun}', '{quote}', '{insert_time}', '{url}');")
-
-                sql1 = TrSQL(sql1)
-                sql2 = TrSQL(sql2)
-
-                Date_base().insert_all(sql1)
-                Date_base().insert_all(sql2)
+                      f"下载次数: {down_sun}\n")
 
                 logger.write_log(f"已获取 ： {title}, UUID : {uuid}")
 
@@ -195,13 +286,15 @@ def get_mian_page_info(driver, keyword, paper_sum_flag, time_out):
 
             finally:
                 count += 1
+            continue_flag = False
+            # time.sleep(1)
 
         time.sleep(3)
-        # 切换到下一页
+        # driver.find_element(By.TAG_NAME, 'body').send_keys(Keys.HOME)
         WebDriverWait(driver, time_out).until(EC.presence_of_element_located((By.XPATH, cp['paper_next_page']))).click()
 
 
-def get_level2_page(driver, keyword, time_out, uuid, title, db_type):
+def get_paper_info(driver, keyword, time_out, uuid, title1, db_type, receive_time, start, dbt):
     paper_db = read_conf.cnki_skip_db()
 
     cp = crawl_xpath()
@@ -215,10 +308,6 @@ def get_level2_page(driver, keyword, time_out, uuid, title, db_type):
 
     # 等待加载完全，休眠3S
     time.sleep(3)
-    for i in range((count - 1) // 20):
-        # 切换到下一页
-        time.sleep(3)
-        WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.XPATH, "//*[@id='PageNext']"))).click()
 
     title_list = WebDriverWait(driver, 10).until(EC.presence_of_all_elements_located((By.CLASS_NAME, "fz14")))
     # 循环网页一页中的条目
@@ -230,14 +319,42 @@ def get_level2_page(driver, keyword, time_out, uuid, title, db_type):
 
         with concurrent.futures.ThreadPoolExecutor() as executor:
             future_elements = [executor.submit(get_info, driver, xpath) for xpath in xpaths]
-        web_title, authors, source, date, db_type, quote, down_sun = [future.result() for future in future_elements]
+        title, authors, source, date, ndb_type, quote, down_sun = [future.result() for future in future_elements]
 
-        if '网络首发' in web_title:
-            web_title = web_title[:-5]
+        if '增强出版' in title:
+            title = title[:-5]
+        if '网络首发' in title:
+            title = title[:-5]
 
-        if web_title != title:
-            count += 1
-            continue
+        if db_type == '期刊':
+            db_type = '1'
+        elif db_type == '报纸':
+            db_type = '0'
+        elif db_type == '硕士':
+            db_type = '2'
+        elif db_type == '博士':
+            db_type = '3'
+        elif db_type == '图书':
+            db_type = '4'
+        elif db_type == '特色期刊':
+            db_type = '5'
+        elif db_type == '刊辑':
+            db_type = '6'
+        elif db_type == '中国会议':
+            db_type = 'a'
+        elif db_type == '国际会议':
+            db_type = 'b'
+        elif db_type == '国家标准':
+            db_type = 'c'
+        elif db_type == '国家标准':
+            db_type = 'd'
+        else:
+            db_type = '9'
+
+        sql3_flag = False
+        if title == title1:
+            sql3_flag = True
+
 
         try:
             term = (count - 1) % 20 + 1  # 本页的第几个条目
@@ -529,40 +646,46 @@ def get_level2_page(driver, keyword, time_out, uuid, title, db_type):
             classification_en = None
             update_time = now_time()
 
-            sql1 = (f"UPDATE `Paper`.`index_copy1` SET  "
-                    f"`classification_zh` = '{classification_zh}', "
-                    f"`update_time` = '{update_time}', "
-                    f"`size` = {paper_size}, "
-                    f"`DOI` = '{DOI}', "
-                    f"`state` = '01' "
-                    f"WHERE `UUID` = '{uuid}';")
+            if sql3_flag is True:
+                sql3 = (f"UPDATE `Paper`.`cnki_index` SET "
+                        f"`receive_time` = '{date}', "
+                        f"`start` = '1', "
+                        f"`db_type` = '{db_type}' "
+                        f"WHERE `UUID` = '{uuid}';")
+            else:
+                uuid = UUID()
+                sql3 = (f"INSERT INTO `Paper`.`cnki_index`"
+                        f"(`UUID`, `title`, `receive_time`, `start`, `db_type`) "
+                        f"VALUES ('{uuid}', '{title}', '{date}', '1', '{db_type}');")
 
-            sql2 = (f"UPDATE `Paper`.`cnki_paper_information` SET "
-                    f"`institute` = '{institute}', "
-                    f"`update_time` = '{update_time}', "
-                    f"`funding` = '{funding}', "
-                    f"`album` = '{publication}', "
-                    f"`classification_number` = '{classification_number}', "
-                    f"`article_directory` = '{article_directory}', "
-                    f"`Topics` = '{topic}', "
-                    f"`level` = '{level}', "
-                    f"`page_sum` = '{page_sum}', "
-                    f"`journal` = '{pl_list[0]}', "
-                    f"`master` = '{pl_list[1]}', "
-                    f"`PhD` = '{pl_list[2]}', "
-                    f"`international_journals` = '{pl_list[3]}', "
-                    f"`book` = '{pl_list[4]}', "
-                    f"`Chinese_and_foreign` = '{pl_list[5]}', "
-                    f"`newpaper` = '{pl_list[6]}' "
-                    f"WHERE `UUID` = '{uuid}';")
+            sql1 = (
+                f"INSERT INTO `Paper`.`index`(`UUID`, `web_site_id`, `classification_en`,`classification_zh`,"
+                f"`source_language`, `title_zh`, `title_en`, `update_time`, `insert_time`, `from`, `state`, "
+                f"`authors`, `Introduction`, `receive_time`, `Journal_reference`, `Comments`, `size`, `DOI`, "
+                f"`version`, `withdrawn`) "
+                f" VALUES ('{uuid}', '{uuid}', '{classification_en}', '{classification_zh}', "
+                f" 'cn', '{new_title}', '{title_en}', '{update_time}', '{insert_time}', 'cnki', '00', "
+                f" '{authors}', NULL, '{date}', NULL, NULL, {paper_size}, '{DOI}', NULL, NULL);")
 
-            sql3 = f"UPDATE `Paper`.`cnki_index` SET  `start` = '1' WHERE `UUID` = '{uuid}';"
+            sql2 = (f"INSERT INTO `Paper`.`cnki_paper_information`"
+                    f"(`UUID`, `institute`, `paper_from`, `db_type`, `down_sun`, `quote`, `insert_time`, "
+                    f"`update_time`, `funding`, `album`, `classification_number`, "
+                    f"`article_directory`, `Topics`, `level`, `page_sum`, `journal`, "
+                    f"`master`, `PhD`, `international_journals`, `book`, "
+                    f"`Chinese_and_foreign`, `newpaper`) "
+                    f"VALUES "
+                    f"('{uuid}', '{institute}', '{source}', '{db_type}',' {down_sun}', '{quote}', '{insert_time}',"
+                    f" '{update_time}', '{funding}', '{publication}', '{classification_number}',"
+                    f" '{article_directory}', '{topic}', '{level}', '{page_sum}', '{pl_list[0]}',"
+                    f" '{pl_list[1]}', '{pl_list[2]}', '{pl_list[3]}', '{pl_list[4]}',"
+                    f" '{pl_list[5]}', '{pl_list[6]}');")
 
             sql1 = TrSQL(sql1)
             sql2 = TrSQL(sql2)
+            sql3 = TrSQL(sql3)
 
-            Date_base().update_all(sql1)
-            Date_base().update_all(sql2)
+            Date_base().insert_all(sql1)
+            Date_base().insert_all(sql2)
             Date_base().update_all(sql3)
 
             logger.write_log(f"已获取 ： {new_title}, UUID : {uuid}")
