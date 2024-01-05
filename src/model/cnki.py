@@ -6,9 +6,7 @@ def keyword():
 
 def date_choose_start_table():
     table = {
-        1: '/html/body/div[5]/div[1]/div[2]/table/tbody/tr[1]/td[1]',
-        2: '/html/body/div[5]/div[1]/div[2]/table/tbody/tr[1]/td[2]',
-        3: '/html/body/div[5]/div[1]/div[2]/table/tbody/tr[1]/td[3]',
+
         4: '/html/body/div[5]/div[1]/div[2]/table/tbody/tr[1]/td[4]',
         5: '/html/body/div[5]/div[1]/div[2]/table/tbody/tr[1]/td[5]',
         6: '/html/body/div[5]/div[1]/div[2]/table/tbody/tr[1]/td[6]',
