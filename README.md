@@ -1,6 +1,8 @@
-## 本程序通过CNKI的主题爬取论文
+### 本程序通过CNKI的主题爬取论文
 
-## 本程序基于[Dramwig/CNKI-spider](https://github.com/Dramwig/CNKI-spider)改写的使用MySQL存储数据的版本并且新增功能
+# 持续更新请前往本人另一个项目[papaer](https://github.com/henntaidesu/PaperSpider)
+
+### 本程序基于[Dramwig/CNKI-spider](https://github.com/Dramwig/CNKI-spider)改写的使用MySQL存储数据的版本并且新增功能
 
 * 新增获取    论文引用文献
 
